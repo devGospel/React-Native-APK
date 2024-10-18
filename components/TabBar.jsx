@@ -1,9 +1,17 @@
 import { View, Text , StyleSheet, TouchableOpacity} from 'react-native'
 import React from 'react'
+import { AntDesign, Feather } from '@expo/vector-icons'
 
 const TabBar = ({ state, descriptors, navigation }) => {
+  const icons = {
+    index: (props) => <AntDesign name='home' size={26} color={greyColor} {...props}/>,
+    explore: (props) => <Feather name='compass' size={26} color={greyColor} {...props}/>,
+    create: (props) => <AntDesign name='pluscircle' size={26} color={greyColor} {...props}/>,
+    profile: (props) => <AntDesign name='user' size={26} color={greyColor} {...props}/>
+  }
     const primaryColor = '#0891b2';
     const greyColor = '#737373';
+
   return (
 <View style={styles.tabbar}>
       {state.routes.map((route, index) => {
@@ -47,10 +55,15 @@ const TabBar = ({ state, descriptors, navigation }) => {
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={options.tabBarTestID}
             onPress={onPress}
-            onLongPress={onLongPress}
-           
+            onLongPress={onLongPress}   
           >
-            <Text style={{ color: isFocused ? 'red' : '#222' }}>
+            {
+              icons[route.name] ({
+                color: isFocused? primaryColor: greyColor,
+                fontSize: 11
+              })
+            }
+            <Text style={{ color: isFocused ? primaryColor : greyColor }}>
               {label}
             </Text>
           </TouchableOpacity>
@@ -63,7 +76,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
 const styles = StyleSheet.create({
     tabbar: {
         position: 'absolute',
-        bottom: 25,
+        top: 60,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -79,7 +92,8 @@ const styles = StyleSheet.create({
     tabbarItem: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        gap: 4
     }
 })
 
